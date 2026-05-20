@@ -29,9 +29,9 @@
             box-sizing: border-box;
         }
 
-        /* Стилизация под вырванный лист из блокнота */
+        /* Стилизация под лист из блокнота с фоновой картинкой */
         .notebook-page {
-            background-color: #fcfbe3; /* Цвет винтажной бумаги */
+            background-color: #fcfbe3; /* Базовый цвет винтажной бумаги */
             background-image: linear-gradient(#e1e0c7 1px, transparent 1px);
             background-size: 100% 28px; /* Линовка */
             border-left: 30px solid #f3f1cd; /* Поля блокнота */
@@ -41,11 +41,16 @@
             padding: 30px 40px 40px 20px;
             max-width: 600px;
             width: 100%;
-            min-height: 520px;
+            min-height: 580px; 
             display: flex;
             flex-direction: column;
             color: var(--text-dark);
             box-sizing: border-box;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            background-blend-mode: multiply; /* Мягко смешивает картинку с текстурой бумаги */
+            transition: background-image 0.3s ease-in-out;
         }
 
         /* Имитация дырок от пружины на полях блокнота */
@@ -58,6 +63,18 @@
             height: 100%;
             background-image: radial-gradient(circle, #1a1c1e 4px, transparent 5px);
             background-size: 100% 35px;
+            z-index: 2;
+        }
+
+        /* Полупрозрачная подложка для контента, чтобы текст отлично читался на любом фоне */
+        .page-content-wrapper {
+            background-color: rgba(252, 251, 227, 0.82); /* Легкий бумажный фильтр поверх картинки */
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            backdrop-filter: blur(1px); /* Легкое размытие заднего плана */
         }
 
         h1 {
@@ -72,32 +89,18 @@
 
         .question-text {
             font-family: 'Caveat', cursive;
-            font-size: 26px;
+            font-size: 28px;
             line-height: 1.2;
             margin-bottom: 20px;
             font-weight: 700;
         }
 
         .question-counter {
-            color: #7b7a65;
+            color: #555443;
             font-size: 14px;
             margin-bottom: 5px;
             text-align: right;
             font-weight: bold;
-        }
-
-        /* Адаптивные иллюстрации для вопросов и результатов */
-        .page-img {
-            width: 100%;
-            height: auto;
-            aspect-ratio: 1 / 1; /* Жестко задает квадратные пропорции */
-            object-fit: contain; /* Картинка полностью помещается без обрезки */
-            background-color: transparent; /* Убираем темные фоны вокруг */
-            border-radius: 6px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            border: 1px solid #d0cfb5;
-            box-sizing: border-box;
         }
 
         .answers-container {
@@ -110,10 +113,10 @@
 
         /* Кнопки ответов */
         .answer-btn {
-            background: transparent;
+            background: rgba(255, 255, 255, 0.7);
             border: 1px dashed #b5b498;
             color: var(--text-dark);
-            padding: 10px 14px;
+            padding: 12px 14px;
             font-size: 16px;
             font-family: 'Pangolin', cursive;
             border-radius: 6px;
@@ -124,13 +127,13 @@
         }
 
         .answer-btn:hover {
-            background-color: rgba(42, 98, 61, 0.05);
+            background-color: rgba(42, 98, 61, 0.1);
             border-style: solid;
             border-color: var(--accent-green);
         }
 
         .answer-btn.selected {
-            background-color: rgba(236, 185, 57, 0.2);
+            background-color: rgba(236, 185, 57, 0.35);
             border: 2px solid var(--accent-gold);
             font-weight: bold;
         }
@@ -179,6 +182,18 @@
             margin-top: 15px;
         }
 
+        /* Квадратная картинка кошелька в самом конце */
+        .result-img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1 / 1;
+            object-fit: contain;
+            border-radius: 6px;
+            margin: 15px 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            border: 1px solid #d0cfb5;
+        }
+
         .hidden {
             display: none !important;
         }
@@ -186,27 +201,34 @@
 </head>
 <body>
 
-<div class="notebook-page" id="start-screen">
-    <h1>Где твои деньги лежат?</h1>
-    <img class="page-img" src="q0.jpg" alt="Обложка блокнота" onerror="this.style.display='none'">
-    <p style="font-size: 18px; line-height: 1.4; text-align: center;">Пуффендуйцы, мы посмотрели на ваши старые дырявые карманы и решили, что так дело не пойдет. Слизерин проводит внеочередной ребрендинг вашего благосостояния. Пройди этот тест и узнай, какой кошелек тебе положен!</p>
-    <button class="action-btn" style="align-self: center;" onclick="startQuiz()">Начать аудит</button>
+<!-- ЭКРАН СТАРТА -->
+<div class="notebook-page" id="start-screen" style="background-image: url('q0.jpg');">
+    <div class="page-content-wrapper center-content">
+        <h1>Где твои деньги лежат?</h1>
+        <p style="font-size: 19px; line-height: 1.4; text-align: center; font-weight: bold;">Пуффендуйцы, мы посмотрели на ваши старые дырявые карманы и решили, что так дело не пойдет. Слизерин проводит внеочередной ребрендинг вашего благосостояния. Пройди этот тест и узнай, какой кошелек тебе положен!</p>
+        <button class="action-btn" onclick="startQuiz()">Начать аудит</button>
+    </div>
 </div>
 
+<!-- ЭКРАН ВОПРОСОВ -->
 <div class="notebook-page hidden" id="quiz-screen">
-    <div class="question-counter" id="counter">Страница 1 из 10</div>
-    <div class="question-text" id="question">Текст вопроса</div>
-    <img class="page-img" id="question-image" src="" alt="Иллюстрация вопроса">
-    <div class="answers-container" id="answers"></div>
-    <button class="action-btn" id="next-btn" onclick="nextQuestion()" disabled>Дальше →</button>
+    <div class="page-content-wrapper">
+        <div class="question-counter" id="counter">Страница 1 из 10</div>
+        <div class="question-text" id="question">Текст вопроса</div>
+        <div class="answers-container" id="answers"></div>
+        <button class="action-btn" id="next-btn" onclick="nextQuestion()" disabled>Дальше →</button>
+    </div>
 </div>
 
-<div class="notebook-page hidden center-content" id="result-screen">
-    <h1>Финансовый вердикт!</h1>
-    <div id="result-type" style="font-size: 24px; font-weight: bold; color: var(--accent-green);">Тип личности</div>
-    <img class="page-img" id="result-image" src="" alt="Твой кошелек" style="max-height: 260px; margin-top: 15px;">
-    <p class="result-desc" id="result-description">Описание результата</p>
-    <button class="action-btn" onclick="restartQuiz()">Переписать историю</button>
+<!-- ЭКРАН РЕЗУЛЬТАТА -->
+<div class="notebook-page hidden" id="result-screen">
+    <div class="page-content-wrapper center-content">
+        <h1>Финансовый вердикт!</h1>
+        <div id="result-type" style="font-size: 24px; font-weight: bold; color: var(--accent-green);">Тип личности</div>
+        <img class="result-img" id="result-image" src="" alt="Твой кошелек">
+        <p class="result-desc" id="result-description">Описание результата</p>
+        <button class="action-btn" onclick="restartQuiz()">Переписать историю</button>
+    </div>
 </div>
 
 <script>
@@ -218,7 +240,7 @@
                 { text: "Х) Проверю почву, составлю график полива и докуплю удобрение для теплицы.", type: "Х" },
                 { text: "С) Буду поливать строго по капле, чтобы сэкономить воду и подкормку.", type: "С" },
                 { text: "Д) Договорюсь с ПОшками за галлеоны, а излишки перепродам когтевранцам.", type: "Д" },
-                { text: "Т) Залью их самым дорогим импортным эликсиром роста — для цветочков не жалко!", type: "T" },
+                { text: "Т) Залью их самым дорогим импортным эликсиром роста — для цветочков не жалко!", type: "Т" },
                 { text: "Щ) Позову друзей помочь, а после устрою пикник с лимонадами за свой счет.", type: "Щ" }
             ]
         },
@@ -262,7 +284,7 @@
                 { text: "Щ) Мне хочется скупить весь Rich Peach ради одного взгляда любимого человека.", type: "Щ" },
                 { text: "Т) Свидания должны быть роскошными: полёт на гиппогрифах и дорогие подарки.", type: "Т" },
                 { text: "Х) Любовь — это когда у вас общие запасы чая на зиму и вы вместе чините скамейки.", type: "Х" },
-                { text: "С) Любовь греет, а значит, можно сэкономить на заклинании обогрева спани.", type: "С" },
+                { text: "С) Любовь греет, а значит, можно сэкономить на заклинании обогрева спальни.", type: "С" },
                 { text: "Д) Отличный повод для парных скидок в «Зонко» и совместного бюджета.", type: "Д" }
             ]
         },
@@ -282,7 +304,7 @@
             img: "q7.jpg",
             a: [
                 { text: "Д) Продам этот пароль слизеринцам за кругленькую сумму. Мне — прибыль.", type: "Д" },
-                { text: "С) Проберусь ночью и возьму один самый дорогой ингредиент на черный день.", type: "С" },
+                { text: "С) Проберусь ночью и возьму один самый дорогой ingredиент на черный день.", type: "С" },
                 { text: "Х) Ничего не трону, но проверю, правильно ли хранятся травы — вдруг там сырость?", type: "Х" },
                 { text: "Т) Наберу кучу красивых блестящих флакончиков просто потому, что они эстетичные.", type: "Т" },
                 { text: "Щ) Вынесу оттуда целебные настойки и раздам простудившимся после квиддича ребятам.", type: "Щ" }
@@ -350,14 +372,18 @@
         selectedType = null;
         document.getElementById('next-btn').disabled = true;
         
+        const currentData = questions[currentQuestion];
+        
+        // Меняем фоновую картинку самого листа блокнота
+        document.getElementById('quiz-screen').style.backgroundImage = `url('${currentData.img}')`;
+        
         document.getElementById('counter').innerText = `Страница ${currentQuestion + 1} из ${questions.length}`;
-        document.getElementById('question').innerText = questions[currentQuestion].q;
-        document.getElementById('question-image').src = questions[currentQuestion].img;
+        document.getElementById('question').innerText = currentData.q;
         
         const answersDiv = document.getElementById('answers');
         answersDiv.innerHTML = '';
         
-        questions[currentQuestion].a.forEach(ans => {
+        currentData.a.forEach(ans => {
             const button = document.createElement('button');
             button.className = 'answer-btn';
             button.innerText = ans.text;
