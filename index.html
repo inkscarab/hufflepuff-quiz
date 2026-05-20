@@ -86,15 +86,28 @@
             font-weight: bold;
         }
 
-        /* Адаптивные иллюстрации для вопросов и результатов */
+        /* ПРЯМОУГОЛЬНЫЕ иллюстрации для 10 вопросов теста */
         .page-img {
             width: 100%;
             max-height: 200px;
-            object-fit: cover;
+            object-fit: cover; /* Красиво кадрирует в прямоугольник */
             border-radius: 6px;
             margin-bottom: 20px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
             border: 1px solid #d0cfb5;
+        }
+
+        /* СТРОГИЕ КВАДРАТЫ для обложки на старте и кошельков в результатах */
+        .square-img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1 / 1; /* Сохраняет пропорции 1:1 */
+            object-fit: contain; /* Картинка не обрезается по бокам */
+            border-radius: 6px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            border: 1px solid #d0cfb5;
+            box-sizing: border-box;
         }
 
         .answers-container {
@@ -132,7 +145,7 @@
             font-weight: bold;
         }
 
-        /* Кнопка "Дальше" / "Начать" */
+        /* Кнопки действий */
         .action-btn {
             background-color: var(--accent-green);
             color: #ffffff;
@@ -185,7 +198,8 @@
 
 <div class="notebook-page" id="start-screen">
     <h1>Где твои деньги лежат?</h1>
-    <img class="page-img" src="q0.jpg" alt="Обложка блокнота" onerror="this.style.display='none'">
+    <!-- Класс square-img делает обложку строго квадратной -->
+    <img class="square-img" src="q0.jpg" alt="Обложка блокнота" onerror="this.style.display='none'">
     <p style="font-size: 18px; line-height: 1.4; text-align: center;">Пуффендуйцы, мы посмотрели на ваши старые дырявые карманы и решили, что так дело не пойдет. Слизерин проводит внеочередной ребрендинг вашего благосостояния. Пройди этот тест и узнай, какой кошелек тебе положен!</p>
     <button class="action-btn" style="align-self: center;" onclick="startQuiz()">Начать аудит</button>
 </div>
@@ -193,6 +207,7 @@
 <div class="notebook-page hidden" id="quiz-screen">
     <div class="question-counter" id="counter">Страница 1 из 10</div>
     <div class="question-text" id="question">Текст вопроса</div>
+    <!-- Класс page-img делает картинки к вопросам аккуратными прямоугольниками -->
     <img class="page-img" id="question-image" src="" alt="Иллюстрация вопроса">
     <div class="answers-container" id="answers"></div>
     <button class="action-btn" id="next-btn" onclick="nextQuestion()" disabled>Дальше →</button>
@@ -201,7 +216,8 @@
 <div class="notebook-page hidden center-content" id="result-screen">
     <h1>Финансовый вердикт!</h1>
     <div id="result-type" style="font-size: 24px; font-weight: bold; color: var(--accent-green);">Тип личности</div>
-    <img class="page-img" id="result-image" src="" alt="Твой кошелек" style="max-height: 260px; margin-top: 15px;">
+    <!-- Класс square-img делает финальный кошелек крупным и строго квадратным -->
+    <img class="square-img" id="result-image" src="" alt="Твой кошелек">
     <p class="result-desc" id="result-description">Описание результата</p>
     <button class="action-btn" onclick="restartQuiz()">Переписать историю</button>
 </div>
@@ -215,7 +231,7 @@
                 { text: "Х) Проверю почву, составлю график полива и докуплю удобрение для теплицы.", type: "Х" },
                 { text: "С) Буду поливать строго по капле, чтобы сэкономить воду и подкормку.", type: "С" },
                 { text: "Д) Договорюсь с ПОшками за галлеоны, а излишки перепродам когтевранцам.", type: "Д" },
-                { text: "Т) Залью их самым дорогим импортным эликсиром роста — для цветочков не жалко!", type: "T" },
+                { text: "Т) Залью их самым дорогим импортным эликсиром роста — для цветочков не жалко!", type: "Т" },
                 { text: "Щ) Позову друзей помочь, а после устрою пикник с лимонадами за свой счет.", type: "Щ" }
             ]
         },
@@ -259,7 +275,7 @@
                 { text: "Щ) Мне хочется скупить весь Rich Peach ради одного взгляда любимого человека.", type: "Щ" },
                 { text: "Т) Свидания должны быть роскошными: полёт на гиппогрифах и дорогие подарки.", type: "Т" },
                 { text: "Х) Любовь — это когда у вас общие запасы чая на зиму и вы вместе чините скамейки.", type: "Х" },
-                { text: "С) Любовь греет, а значит, можно сэкономить на заклинании обогрева спани.", type: "С" },
+                { text: "С) Любовь греет, а значит, можно сэкономить на заклинании обогрева спальни.", type: "С" },
                 { text: "Д) Отличный повод для парных скидок в «Зонко» и совместного бюджета.", type: "Д" }
             ]
         },
