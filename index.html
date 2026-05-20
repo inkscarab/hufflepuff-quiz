@@ -89,14 +89,14 @@
         /* ПРЯМОУГОЛЬНЫЕ иллюстрации для 10 вопросов теста */
         .page-img {
             width: 100%;
-            max-height: 200px;
-            object-fit: cover; /* Красиво кадрирует в прямоугольник */
+            height: auto;
+            aspect-ratio: 16 / 9; /* Жестко задает кинематографичные пропорции 16:9 */
+            object-fit: cover; /* Красиво заполняет рамку без искажения рисунка */
             border-radius: 6px;
             margin-bottom: 20px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
             border: 1px solid #d0cfb5;
         }
-
         /* СТРОГИЕ КВАДРАТЫ для обложки на старте и кошельков в результатах */
         .square-img {
             width: 100%;
