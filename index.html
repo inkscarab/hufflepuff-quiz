@@ -102,17 +102,21 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
             border: 1px solid #d0cfb5;
         }
-        /* СТРОГИЕ КВАДРАТЫ для обложки на старте и кошельков в результатах */
+ /* СТРОГИЕ КВАДРАТЫ с рамкой в цвет фона для обложки и кошельков */
         .square-img {
             width: 100%;
             height: auto;
             aspect-ratio: 1 / 1; /* Сохраняет пропорции 1:1 */
-            object-fit: contain; /* Картинка не обрезается по бокам */
-            border-radius: 6px;
+            object-fit: contain; /* Картинка не обрезается */
+            border-radius: 8px;
             margin-bottom: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            border: 1px solid #d0cfb5;
             box-sizing: border-box;
+            
+            /* Художественная рамка в цвет теплого зеленого фона */
+            background-color: #f7f6da; /* Слегка осветленная подложка, чтобы рисунок сиял */
+            padding: 10px; /* Отступ для эффекта паспарту */
+            border: 3px double #213528; /* Винтажная двойная рамка цвета лесного мха */
+            box-shadow: 0 6px 15px rgba(33, 53, 40, 0.25); /* Мягкая тень под рамкой */
         }
 
         .answers-container {
