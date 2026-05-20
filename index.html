@@ -4,15 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Подарок для пуффендуйцев</title>
-       <!-- Исправленное подключение шрифтов с принудительной поддержкой кириллицы -->
-    <link rel="preconnect" href="https://googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Caveat:wght@400;700&family=Pangolin&display=swap&subset=cyrillic" rel="stylesheet">
 
-    
+
     <style>
-            :root {
-            /* Перекрашиваем фон в теплый слизеринский зеленый */
+        :root {
             --bg-color: #213528; 
             --accent-gold: #ecb939;
             --accent-green: #2a623d;
@@ -20,8 +15,10 @@
         }
 
         body {
-            font-family: 'Pangolin', cursive;
-            /* Задаем мягкий цвет и генерируем текстуру бумажного зерна/шума */
+            /* Надежная цепочка встроенных мягких и округлых шрифтов:
+               Сначала ищется стандартный округлый Segoe Print, затем курсивный Calibri, 
+               Comic Sans (который на телефонах выглядит как аккуратный почерк) и системный sans-serif */
+            font-family: "Segoe Print", "Calibri Light", "Comic Sans MS", cursive, sans-serif;
             background-color: var(--bg-color);
             background-image: 
                 radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05), transparent),
@@ -33,6 +30,12 @@
             align-items: center;
             min-height: 100vh;
             box-sizing: border-box;
+        }
+
+        /* Чтобы заголовки и вопросы выделялись, сделаем их более выразительными */
+        h1, .question-text {
+            font-family: "Segoe Print", "Georgia", cursive, serif;
+            font-weight: bold;
         }
         
         /* Стилизация под вырванный лист из блокнота */
@@ -135,7 +138,7 @@
             color: var(--text-dark);
             padding: 10px 14px;
             font-size: 16px;
-            font-family: 'Pangolin', cursive;
+            font-family: inherit;
             border-radius: 6px;
             cursor: pointer;
             text-align: left;
@@ -162,7 +165,7 @@
             border: none;
             padding: 12px 25px;
             font-size: 18px;
-            font-family: 'Pangolin', cursive;
+            font-family: inherit;
             border-radius: 6px;
             cursor: pointer;
             align-self: flex-end;
