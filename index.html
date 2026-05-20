@@ -89,12 +89,15 @@
         /* Адаптивные иллюстрации для вопросов и результатов */
         .page-img {
             width: 100%;
-            max-height: 200px;
-            object-fit: cover;
+            height: auto;
+            aspect-ratio: 1 / 1; /* Жестко задает квадратные пропорции */
+            object-fit: contain; /* Картинка полностью помещается без обрезки */
+            background-color: transparent; /* Убираем темные фоны вокруг */
             border-radius: 6px;
             margin-bottom: 20px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
             border: 1px solid #d0cfb5;
+            box-sizing: border-box;
         }
 
         .answers-container {
