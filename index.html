@@ -15,10 +15,10 @@
         }
 
         body {
-            /* Надежная цепочка встроенных мягких и округлых шрифтов:
-               Сначала ищется стандартный округлый Segoe Print, затем курсивный Calibri, 
-               Comic Sans (который на телефонах выглядит как аккуратный почерк) и системный sans-serif */
-            font-family: "Segoe Print", "Calibri Light", "Comic Sans MS", cursive, sans-serif;
+            /* Пересобранная, надежная цепочка шрифтов. 
+               На ПК — чернильный Segoe Print.
+               На смартфонах — мягкие округлые системные шрифты, где знаки препинания никогда не отвалятся */
+            font-family: "Segoe Print", "Comic Sans MS", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
             background-image: 
                 radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05), transparent),
@@ -70,10 +70,10 @@
         }
 
         h1 {
-            font-family: "Segoe Print", "Georgia", cursive, serif;
+            font-family: "Segoe Print", "Comic Sans MS", "Georgia", serif;
             color: var(--accent-green);
             text-align: center;
-            font-size: 34px; /* Немного уменьшили размер, так как Segoe крупнее, чем Caveat */
+            font-size: 34px; 
             margin-top: 0;
             margin-bottom: 20px;
             line-height: 1.2;
@@ -81,8 +81,8 @@
         }
 
         .question-text {
-            font-family: "Segoe Print", "Georgia", cursive, serif;
-            font-size: 24px; /* Тоже чуть скорректировали для идеального баланса */
+            font-family: "Segoe Print", "Comic Sans MS", "Georgia", serif;
+            font-size: 24px; 
             line-height: 1.3;
             margin-bottom: 20px;
             font-weight: 700;
@@ -140,7 +140,8 @@
             color: var(--text-dark);
             padding: 10px 14px;
             font-size: 16px;
-            font-family: inherit;
+            /* Принудительно заставляем кнопки брать шрифт у body */
+            font-family: inherit; 
             border-radius: 6px;
             cursor: pointer;
             text-align: left;
@@ -167,7 +168,8 @@
             border: none;
             padding: 12px 25px;
             font-size: 18px;
-            font-family: inherit;
+            /* Принудительно заставляем кнопки брать шрифт у body */
+            font-family: inherit; 
             border-radius: 6px;
             cursor: pointer;
             align-self: flex-end;
