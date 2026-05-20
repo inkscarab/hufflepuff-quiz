@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Финансовый аудит от Слизерина</title>
+    <!-- Подключаем рукописные кириллические шрифты из Google Fonts -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Caveat:wght@400;700&family=Pangolin&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #1a1c1e;
+            --accent-gold: #ecb939;
+            --accent-green: #2a623d;
+            --text-dark: #2b2b2b;
+        }
+
+        body {
+            font-family: 'Pangolin', cursive;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Стилизация под вырванный лист из блокнота */
+        .notebook-page {
+            background-color: #fcfbe3; /* Цвет винтажной бумаги */
+            background-image: linear-gradient(#e1e0c7 1px, transparent 1px);
+            background-size: 100% 28px; /* Линовка */
+            border-left: 30px solid #f3f1cd; /* Поля блокнота */
+            box-shadow: 2px 2px 20px rgba(0,0,0,0.6), inset 1px 0px 0px rgba(0,0,0,0.1);
+            position: relative;
+            border-radius: 4px;
+            padding: 30px 40px 40px 20px;
+            max-width: 600px;
+            width: 100%;
+            min-height: 520px;
+            display: flex;
+            flex-direction: column;
+            color: var(--text-dark);
+            box-sizing: border-box;
+        }
+
+        /* Имитация дырок от пружины на полях блокнота */
+        .notebook-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -18px;
+            width: 10px;
+            height: 100%;
+            background-image: radial-gradient(circle, #1a1c1e 4px, transparent 5px);
+            background-size: 100% 35px;
+        }
+
+        h1 {
+            font-family: 'Caveat', cursive;
+            color: var(--accent-green);
+            text-align: center;
+            font-size: 38px;
+            margin-top: 0;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .question-text {
+            font-family: 'Caveat', cursive;
+            font-size: 26px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .question-counter {
+            color: #7b7a65;
+            font-size: 14px;
+            margin-bottom: 5px;
+            text-align: right;
+            font-weight: bold;
+        }
+
+        /* Адаптивные иллюстрации для вопросов и результатов */
+        .page-img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            border: 1px solid #d0cfb5;
+        }
+
+        .answers-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        /* Кнопки ответов */
+        .answer-btn {
+            background: transparent;
+            border: 1px dashed #b5b498;
+            color: var(--text-dark);
+            padding: 10px 14px;
+            font-size: 16px;
+            font-family: 'Pangolin', cursive;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s ease;
+            line-height: 1.3;
+        }
+
+        .answer-btn:hover {
+            background-color: rgba(42, 98, 61, 0.05);
+            border-style: solid;
+            border-color: var(--accent-green);
+        }
+
+        .answer-btn.selected {
+            background-color: rgba(236, 185, 57, 0.2);
+            border: 2px solid var(--accent-gold);
+            font-weight: bold;
+        }
+
+        /* Кнопка "Дальше" / "Начать" */
+        .action-btn {
+            background-color: var(--accent-green);
+            color: #ffffff;
+            border: none;
+            padding: 12px 25px;
+            font-size: 18px;
+            font-family: 'Pangolin', cursive;
+            border-radius: 6px;
+            cursor: pointer;
+            align-self: flex-end;
+            transition: all 0.2s ease;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+        }
+
+        .action-btn:hover {
+            background-color: #1e472c;
+            transform: translateY(-1px);
+        }
+
+        .action-btn:disabled {
+            background-color: #bcbaa2;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .center-content {
+            align-items: center;
+            text-align: center;
+            justify-content: center;
+        }
+
+        .center-content .action-btn {
+            align-self: center;
+            margin-top: 20px;
+        }
+
+        .result-desc {
+            font-size: 18px;
+            line-height: 1.4;
+            margin-top: 15px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+<div class="notebook-page" id="start-screen">
+    <h1>Где твои деньги лежат?</h1>
+    <img class="page-img" src="q0.jpg" alt="Обложка блокнота" onerror="this.style.display='none'">
+    <p style="font-size: 18px; line-height: 1.4; text-align: center;">Пуффендуйцы, мы посмотрели на ваши старые дырявые карманы и решили, что так дело не пойдет. Слизерин проводит внеочередной ребрендинг вашего благосостояния. Пройди этот тест и узнай, какой кошелек тебе положен!</p>
+    <button class="action-btn" style="align-self: center;" onclick="startQuiz()">Начать аудит</button>
+</div>
+
+<div class="notebook-page hidden" id="quiz-screen">
+    <div class="question-counter" id="counter">Страница 1 из 10</div>
+    <div class="question-text" id="question">Текст вопроса</div>
+    <img class="page-img" id="question-image" src="" alt="Иллюстрация вопроса">
+    <div class="answers-container" id="answers"></div>
+    <button class="action-btn" id="next-btn" onclick="nextQuestion()" disabled>Дальше →</button>
+</div>
+
+<div class="notebook-page hidden center-content" id="result-screen">
+    <h1>Финансовый вердикт!</h1>
+    <div id="result-type" style="font-size: 24px; font-weight: bold; color: var(--accent-green);">Тип личности</div>
+    <img class="page-img" id="result-image" src="" alt="Твой кошелек" style="max-height: 260px; margin-top: 15px;">
+    <p class="result-desc" id="result-description">Описание результата</p>
+    <button class="action-btn" onclick="restartQuiz()">Переписать историю</button>
+</div>
+
+<script>
+    const questions = [
+        {
+            q: "Профессор Дюрансе-Дейл уехала на конференцию травологов и доверила тебе полив редких прыгучих луковиц. Чем планируешь заняться?",
+            img: "q1.jpg",
+            a: [
+                { text: "Х) Проверю почву, составлю график полива и докуплю удобрение для теплицы.", type: "Х" },
+                { text: "С) Буду поливать строго по капле, чтобы сэкономить воду и подкормку.", type: "С" },
+                { text: "Д) Договорюсь с ПОшками за галлеоны, а излишки перепродам когтевранцам.", type: "Д" },
+                { text: "Т) Залью их самым дорогим импортным эликсиром роста — для цветочков не жалко!", type: "T" },
+                { text: "Щ) Позову друзей помочь, а после устрою пикник с лимонадами за свой счет.", type: "Щ" }
+            ]
+        },
+        {
+            q: "По пути в «Розмарин» ты решаешь заглянуть «Под крыло Ворона», и тут в глаза бросается лимитированная коллекция когтевранских леденцов. В кармане последние 7 галлеонов. Твоя реакция?",
+            img: "q2.jpg",
+            a: [
+                { text: "Т) Гуляем! Покупаю леденцы на все деньги, а плед и связать можно.", type: "Т" },
+                { text: "Щ) Куплю три штуки и раздам друзьям. Главное, чтобы ребята были счастливы.", type: "Щ" },
+                { text: "С) Развернусь и уйду. Семь галлеонов должны лежать в сундуке!", type: "С" },
+                { text: "Д) Куплю парочку, подожду конца акции и перепродам в гостиной вдвое дороже.", type: "Д" },
+                { text: "Х) На эти деньги лучше куплю муки и корицы, чтобы напечь плюшек на всю гостиную.", type: "Х" }
+            ]
+        },
+        {
+            q: "Как ты относишься к идее устроить сладкий пранк и втихаря вымазать чью-нибудь метлу патокой перед тренировкой?",
+            img: "q3.jpg",
+            a: [
+                { text: "Д) Отличный стартап. Буду продавать растворитель для патоки прямо у поля.", type: "Д" },
+                { text: "Т) Проспонсирую закупку патоки бочками! Несите самую дорогую, янтарную!", type: "Т" },
+                { text: "Щ) Если это поднимет команде настроение перед игрой — я в деле и всё куплю.", type: "Щ" },
+                { text: "Х) Переводить продукты? Патоку надо в тыквенные пироги добавлять, а не на метлы!", type: "Х" },
+                { text: "С) Патока сейчас дорожает. Участвую, только если скидываемся всей гостиной.", type: "С" }
+            ]
+        },
+        {
+            q: "Ты находишь на полу в библиотеке запыленный, явно ценный фолиант по демонологии, от которого слегка пахнет серой. Как планируешь поступить?",
+            img: "q4.jpg",
+            a: [
+                { text: "С) Быстро спрячу под матрас в свою личную секретную коллекцию.", type: "С" },
+                { text: "Х) Отнесу в гостиную и отдам Грэйс Грейлэнд, конечно: это её профиль.", type: "Х" },
+                { text: "Д) Узнаю через знакомых на Слизерине, сколько за него дадут в Лютом переулке.", type: "Д" },
+                { text: "Щ) Подарю однокурснику, который фанатеет по защите от Темных искусств.", type: "Щ" },
+                { text: "Т) Оставлю себе и закажу бархатные перчатки, чтобы листать страницы красиво.", type: "Т" }
+            ]
+        },
+        {
+            q: "Какое Амурное дерево любви растёт в твоих планах на личную жизнь?",
+            img: "q5.jpg",
+            a: [
+                { text: "Щ) Мне хочется скупить весь Rich Peach ради одного взгляда любимого человека.", type: "Щ" },
+                { text: "Т) Свидания должны быть роскошными: полёт на гиппогрифах и дорогие подарки.", type: "Т" },
+                { text: "Х) Любовь — это когда у вас общие запасы чая на зиму и вы вместе чините скамейки.", type: "Х" },
+                { text: "С) Любовь греет, а значит, можно сэкономить на заклинании обогрева спани.", type: "С" },
+                { text: "Д) Отличный повод для парных скидок в «Зонко» и совместного бюджета.", type: "Д" }
+            ]
+        },
+        {
+            q: "На кулинарный конкурс факультетов нужно приготовить фирменные пуффендуйские плюшки. Твой вклад в процесс?",
+            img: "q6.jpg",
+            a: [
+                { text: "Х) Возглавлю его, проверю качество муки, духовку и прослежу за формой.", type: "Х" },
+                { text: "С) Выделю из своих запасов самую малость корицы и буду контролировать сахар.", type: "С" },
+                { text: "Т) Скуплю все самые экзотические специи и кондитерские посыпки в лавках.", type: "Т" },
+                { text: "Щ) Испеку тройную норму, чтобы хватило и домовикам, и Слизерину.", type: "Щ" },
+                { text: "Д) Договорюсь с эльфами о субаренде кухни и организую предзаказы на плюшки.", type: "Д" }
+            ]
+        },
+        {
+            q: "Ты случайно узнаёшь секретный пароль от кладовой в кабинете зельеварения Блейк Эллингтон. Твои действия?",
+            img: "q7.jpg",
+            a: [
+                { text: "Д) Продам этот пароль слизеринцам за кругленькую сумму. Мне — прибыль.", type: "Д" },
+                { text: "С) Проберусь ночью и возьму один самый дорогой ингредиент на черный день.", type: "С" },
+                { text: "Х) Ничего не трону, но проверю, правильно ли хранятся травы — вдруг там сырость?", type: "Х" },
+                { text: "Т) Наберу кучу красивых блестящих флакончиков просто потому, что они эстетичные.", type: "Т" },
+                { text: "Щ) Вынесу оттуда целебные настойки и раздам простудившимся после квиддича ребятам.", type: "Щ" }
+            ]
+        },
+        {
+            q: "Представь, что тебе нужно выбрать подарок другу на день рождения. Как ты поступишь?",
+            img: "q8.jpg",
+            a: [
+                { text: "Т) Куплю огромную, безумно дорогую вещь — пусть выглядит сногсшибательно.", type: "Т" },
+                { text: "Щ) Подарю то, о чем он мечтал весь год, даже если придется залезть в долги.", type: "Щ" },
+                { text: "Х) Подарю что-то полезное в быту: теплый плед ручной вязки или вечный термос.", type: "Х" },
+                { text: "С) Сделаю открытку своими руками ради душевности и экономии сиклей.", type: "С" },
+                { text: "Д) Подарю сертификат, который я сам когда-то выиграл в лотерею или выменял.", type: "Д" }
+            ]
+        },
+        {
+            q: "Слизеринцы предлагают сыграть в плюй-камни на галлеоны. Какой план?",
+            img: "q9.jpg",
+            a: [
+                { text: "Д) Сделаю ставку на фаворита, незаметно заколдую чужие камни и заберу банк.", type: "Д" },
+                { text: "С) Буду играть осторожно и выйду из игры, как только отобью свой взнос.", type: "С" },
+                { text: "Х) Тщательно вымою камни и сыграю строго ради престижа Пуффендуя.", type: "Х" },
+                { text: "Т) Куплю перед турниром шикарный набор камней из нефрита. Проиграю, зато красиво!", type: "Т" },
+                { text: "Щ) Нарочно поддамся приунывшему первокурснику и незаметно верну ему монеты.", type: "Щ" }
+            ]
+        },
+        {
+            q: "Тебе предстоит организовать вечер в Общей Гостиной. Какой формат мероприятия ты выберешь?",
+            img: "q10.jpg",
+            a: [
+                { text: "Т) Шоу талантов с Шушем в качестве звезды, фейерверками и самым дорогим декором.", type: "Т" },
+                { text: "С) Тихое чаепитие со своими настолками и чаем в термосах — душевно и без трат.", type: "С" },
+                { text: "Д) Договорюсь с ОАО ЛОХ и организую масштабную лотерею с платными билетами.", type: "Д" },
+                { text: "Щ) Вечер музыки по заявкам, а в финале разыграю кучу классных подарков за свой счет.", type: "Щ" },
+                { text: "Х) Командные игры с викториной по истории факультета и уютным общим чаепитием.", type: "Х" }
+            ]
+        }
+    ];
+
+    const results = {
+        "Т": { title: "ТРАНЖИРА (Твой кошелек: Плюшка) 🥐", desc: "Деньги в твоих карманах тают быстрее, чем сливочное пиво в жаркий день. Ты живешь моментом, обожаешь радовать себя эстетичными вещами и импульсивными покупками. Твой кошелек-плюшка такой же мягкий и воздушный, как твои финансовые планы. Осторожно: не пытайся откусить от него в голодный год!", img: "bagel.jpg" },
+        "С": { title: "СКУПОЙ РЫЦАРЬ (Твой кошелек: Гном) 🪙", desc: "Твоей выдержке позавидовал бы сам гоблин Крюкохват. Ты точно знаешь, сколько сиклей лежит на твоем счету, и не любишь тратить их на ерунду. Твой кошелек-гном будет надежно охранять твои сбережения. Он выглядит ворчливым и прижимистым — идеальное отражение твоей внутренней жабы, которая бережет каждый кнат.", img: "gnome.jpg" },
+        "Д": { title: "ДЕЛЕЦ (Твой кошелек: Лягушка) 🐸", desc: "Ты — будущий финансовый директор Министерства магии или как минимум владелец подпольного бизнеса в Хогвартсе. Ты видишь выгоду там, где другие видят просто кучу навоза дракона. Твой кошелек-лягушка готов скакать за прибылью и проворачивать любые махинации. Слизерин жмет тебе руку!", img: "frog.jpg" },
+        "Щ": { title: "ЩЕДРЫЙ (Твой кошелек: Сердечко) 🫶", desc: "Твое сердце больше, чем Большой зал Хогвартса. Ты готов отдать последнюю мантию другу и скупать всё ради чужих улыбок. Твой кошелек-сердечко украшен обвесами-семечками. Он символизирует, что твои финансы всегда открыты для тех, кого ты любишь (даже если там порой гуляет ветер из-за твоей потрясающей доброты).", img: "heart.jpg" },
+        "Х": { title: "ХОЗЯЙСТВЕННЫЙ (Твой кошелек: Барсук) 🦡", desc: "Ты — опора и фундамент Пуффендуя. Ты печешься о том, чтобы в гостиной всегда был чай, пледы были чистыми, а у факультета не убавлялись баллы. Деньги для тебя — инструмент для создания уюта и комфорта. Твой кошелек-барсук — это вечная классика, надежность и забота о доме.", img: "badger.jpg" }
+    };
+
+    let currentQuestion = 0;
+    let scores = { "Т": 0, "С": 0, "Д": 0, "Щ": 0, "Х": 0 };
+    let selectedType = null;
+
+    function startQuiz() {
+        document.getElementById('start-screen').classList.add('hidden');
+        document.getElementById('quiz-screen').classList.remove('hidden');
+        showQuestion();
+    }
+
+    function showQuestion() {
+        if (currentQuestion >= questions.length) {
+            showResult();
+            return;
+        }
+        
+        selectedType = null;
+        document.getElementById('next-btn').disabled = true;
+        
+        document.getElementById('counter').innerText = `Страница ${currentQuestion + 1} из ${questions.length}`;
+        document.getElementById('question').innerText = questions[currentQuestion].q;
+        document.getElementById('question-image').src = questions[currentQuestion].img;
+        
+        const answersDiv = document.getElementById('answers');
+        answersDiv.innerHTML = '';
+        
+        questions[currentQuestion].a.forEach(ans => {
+            const button = document.createElement('button');
+            button.className = 'answer-btn';
+            button.innerText = ans.text;
+            button.onclick = () => selectAnswer(button, ans.type);
+            answersDiv.appendChild(button);
+        });
+    }
+
+    function selectAnswer(button, type) {
+        const buttons = document.querySelectorAll('.answer-btn');
+        buttons.forEach(btn => btn.classList.remove('selected'));
+        
+        button.classList.add('selected');
+        selectedType = type;
+        document.getElementById('next-btn').disabled = false;
+    }
+
+    function nextQuestion() {
+        if (selectedType) {
+            scores[selectedType]++;
+            currentQuestion++;
+            showQuestion();
+        }
+    }
+
+    function showResult() {
+        document.getElementById('quiz-screen').classList.add('hidden');
+        document.getElementById('result-screen').classList.remove('hidden');
+        
+        let maxType = 'Х';
+        let maxScore = -1;
+        
+        for (let type in scores) {
+            if (scores[type] > maxScore) {
+                maxScore = scores[type];
+                maxType = type;
+            }
+        }
+        
+        const resultData = results[maxType];
+        document.getElementById('result-type').innerText = resultData.title;
+        document.getElementById('result-description').innerText = resultData.desc;
+        document.getElementById('result-image').src = resultData.img;
+    }
+
+    function restartQuiz() {
+        currentQuestion = 0;
+        scores = { "Т": 0, "С": 0, "Д": 0, "Щ": 0, "Х": 0 };
+        document.getElementById('result-screen').classList.add('hidden');
+        document.getElementById('start-screen').classList.remove('hidden');
+    }
+</script>
+</body>
+</html>
